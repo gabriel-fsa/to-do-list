@@ -1,6 +1,6 @@
 const express = require('express')
 const { resolve } = require('path')
-
+require('dotenv').config()
 const app = express()
 
 app.use('/', express.static(resolve(__dirname, './build')))
