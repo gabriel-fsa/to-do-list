@@ -4,7 +4,7 @@ import { TaskModule } from './task/task.module'
 import { PrismaService } from './prisma/prisma.service'
 
 @Module({
-  imports: [TodosModule],
+  imports: [TodosModule, TodosModule],
   controllers: [],
   providers: [PrismaService],
 })
