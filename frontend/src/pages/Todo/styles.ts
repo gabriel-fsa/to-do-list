@@ -7,8 +7,8 @@ export const Container = styled.div`
   margin: 30px auto;
   background-color: #4527a0;
   overflow: auto;
-  min-height: 300px;
-  max-height: calc(100vh - 50px);
+  min-height: 500px;
+  max-height: calc(100vh - 300px);
   border: 2px solid chartreuse;
   padding: 30px;
   border-radius: 10px;
