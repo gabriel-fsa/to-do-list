@@ -5,7 +5,7 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   min-height: 50px;
-  border-bottom: 1px solid gray;
+  width: 100%;
 `
 
 export const Form = styled.form`
@@ -15,5 +15,33 @@ export const Form = styled.form`
 
   input {
     height: 100%;
+    color: white;
+  }
+
+  input::placeholder {
+    color: white;
+    opacity: 0.6;
+  }
+
+  button {
+    height: 48px;
+    width: 48px;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+`
+export const InputWrapper = styled.div`
+  height: 61px;
+  background-color: #7e57c2;
+  border-radius: 20px;
+
+  input {
+    background-color: transparent;
+    margin: 0 20px;
+    outline: none;
+    border: none;
   }
 `
