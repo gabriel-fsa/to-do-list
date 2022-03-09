@@ -1,14 +1,11 @@
 import React from 'react';
 import { useTodo } from '../../hook/useTodo';
-import InputForm from '../Form';
 import TableItem from '../ListItem';
 
 import { Container } from './styles';
 
-interface TaskListProps {
-}
 
-function TaskList({ }: TaskListProps) {
+function TaskList() {
   const {
     todos,
     selectedTodo,

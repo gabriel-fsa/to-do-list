@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 import { Task, Todo, useTodo } from '../../hook/useTodo';
 
 import { Container, ButtonsWrapper, Checkbox } from './styles';

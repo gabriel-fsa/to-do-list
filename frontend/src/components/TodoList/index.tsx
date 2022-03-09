@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTodo } from '../../hook/useTodo';
-import InputForm from '../Form';
 
 import ListItem from '../ListItem';
 import { Container } from './styles';
@@ -10,7 +9,7 @@ interface ListProps {
 }
 
 const List: React.FC<ListProps> = () => {
-  const { todos, setEdit, handleDeleteTodo, handleUpdateTodo } = useTodo()
+  const { todos, setEdit, handleDeleteTodo } = useTodo()
 
   function onDeleteButton(idTodo: number) {
     return () => handleDeleteTodo(idTodo)

@@ -5,14 +5,10 @@ import TodoList from '../../components/TodoList';
 import { useTodo } from '../../hook/useTodo';
 import { Container, Content, Header } from './styles';
 
-interface TasksProps {
-  id: number
-  task: string
-  completed: boolean
-}
+
 
 const Todo: React.FC = () => {
-  const { todos, selectedTodo } = useTodo()
+  const { selectedTodo } = useTodo()
   return (
     <Container>
       <Header>

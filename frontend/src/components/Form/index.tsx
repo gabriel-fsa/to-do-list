@@ -41,11 +41,11 @@ const InputForm: React.FC<FormProps> = ({ isInTodoPage, isInTaskPage }) => {
     if (!inputData.length) return
     if (edit) {
       if (edit.mode === 'task') {
-        const { todoId, taskId, message } = edit
+        const { todoId, taskId } = edit
         handleUpdateTask(todoId, Number(taskId), inputData)
       }
       if (edit.mode === 'todo') {
-        const { todoId, taskId, message } = edit
+        const { todoId } = edit
         handleUpdateTodo(todoId, inputData)
       }
       setEdit(null)
