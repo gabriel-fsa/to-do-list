@@ -10,16 +10,16 @@ export type Todo = {
     tasks: Task[]
 }
 
-
 export interface Task {
     id: number
     name: string
     completed: boolean
 }
-export interface TaskEditing {
+export interface Edit {
+    mode: 'todo' | 'task'
     todoId: number
-    taskId: number
-    taskMessage: string
+    taskId?: number
+    message: string
 }
 
 interface TaskProviderProps {
@@ -29,13 +29,17 @@ interface TaskProviderProps {
 interface TransactionsContextData {
     todos: TodoList
     selectedTodo: number | null
-    taskEditing: TaskEditing | null
-    setTaskEditing: Dispatch<React.SetStateAction<TaskEditing | null>>
+
+    edit: Edit | null
+    setEdit: Dispatch<React.SetStateAction<Edit | null>>
     setSelectedTodo: Dispatch<SetStateAction<null | number>>
+
     handleAddTodo(name: string): void
+    handleUpdateTodo(todoId: number, taskMessage: string): void
     handleDeleteTodo(todoId: number): void
-    handleUpdateTask(todoId: number, taskId: number, taskMessage: string): void
+
     handleAddTask(todoId: number, inputTaskValue: string): void
+    handleUpdateTask(todoId: number, taskId: number, taskMessage: string): void
     handleDeleteTask(todoId: number, taskId: number): void
     toggleCompleteTask(todoId: number, taskId: number): Promise<boolean>
 }
@@ -45,7 +49,7 @@ const TaskContext = createContext<TransactionsContextData>({} as TransactionsCon
 export function TaskProvider({ children }: TaskProviderProps) {
     const [todos, setTodos] = useState<TodoList>([])
     const [selectedTodo, setSelectedTodo] = useState<null | number>(null)
-    const [taskEditing, setTaskEditing] = useState<null | TaskEditing>(null)
+    const [edit, setEdit] = useState<null | Edit>(null)
     const alert = useAlert()
     async function fetchData() {
         setTodos(await (await api.get('todos')).data)
@@ -70,6 +74,14 @@ export function TaskProvider({ children }: TaskProviderProps) {
                 alert.error(e.request);
             } else {
                 alert.error('Erro inexperado');
+            }
+        }
+    }
+    async function handleUpdateTodo(todoId: number, message: string) {
+        if (message) {
+            const responeData = await api.patch(`todos/${todoId}`, { name: message })
+            if (responeData.status === 200) {
+                await fetchData()
             }
         }
     }
@@ -145,15 +157,19 @@ export function TaskProvider({ children }: TaskProviderProps) {
         <TaskContext.Provider value={{
             todos,
             selectedTodo,
+
+            edit,
+            setEdit,
             setSelectedTodo,
+
             handleAddTodo,
+            handleUpdateTodo,
             handleDeleteTodo,
+
             handleDeleteTask,
             handleUpdateTask,
             toggleCompleteTask,
-            handleAddTask,
-            taskEditing,
-            setTaskEditing
+            handleAddTask
         }}>
             {children}
         </TaskContext.Provider>
