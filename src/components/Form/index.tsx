@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTodo } from '../../hook/useTodo';
 import { ReactComponent as Add } from '../../assets/Add.svg'
 import { ReactComponent as Back } from '../../assets/Back.svg'
+import { ReactComponent as Cancel } from '../../assets/Cancel.svg'
 
 import { Container, InputWrapper, Form } from './styles';
 
@@ -71,7 +72,7 @@ const InputForm: React.FC<FormProps> = ({ isInTodoPage, isInTaskPage }) => {
           />
         </InputWrapper>
         <button onClick={handleSubmit}><Add /></button>
-        {isInTaskPage && edit && <button type='button' onClick={() => setEdit(null)}>{'Cancelar'}</button>}
+        {isInTaskPage && edit && <button type='button' onClick={() => setEdit(null)}><Cancel /></button>}
       </Form >
     </Container>
   );

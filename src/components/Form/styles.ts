@@ -12,6 +12,7 @@ export const Form = styled.form`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 15px;
 
   input {
     height: 100%;
@@ -30,6 +31,10 @@ export const Form = styled.form`
     outline: none;
     border: none;
     margin-left: 15px;
+    /* margin-right: 15px; */
+  }
+
+  .back-icon {
     margin-right: 15px;
   }
 `
