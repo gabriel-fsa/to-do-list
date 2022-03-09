@@ -1,35 +1,40 @@
 import React from 'react';
 import { useTodo } from '../../hook/useTodo';
-import InputForm from '../Form';
 
-import TaskItem from '../TaskItem';
-import TodoItem from '../TodoItem';
+import ListItem from '../ListItem';
 import { Container } from './styles';
 
 
-interface TasksProps {
-  tasks: {
-    id: number
-    task: string
-    completed: boolean
-  }[]
+interface ListProps {
 }
 
-interface TaskProps {
-}
+const List: React.FC<ListProps> = () => {
+  const { todos, setEdit, handleDeleteTodo } = useTodo()
 
-const TodoList: React.FC<TaskProps> = () => {
-  const { todos } = useTodo()
+  function onDeleteButton(idTodo: number) {
+    return () => handleDeleteTodo(idTodo)
+  }
+  function onEditButton(todoId: number, mode: 'task' | 'todo' = 'todo') {
+    return () => setEdit({
+      mode,
+      todoId,
+      message: todos
+        ?.find((todo) => todo.id === todoId)?.name || ''
+    })
+  }
 
   return (
     <Container>
-      <InputForm isInTodoPage />
       {todos.length ? todos.map(todo =>
-        <TodoItem key={todo.id} todo={todo} />
+        <ListItem
+          key={todo.id}
+          todoItem={todo}
+          onDeleteButton={onDeleteButton(todo.id)}
+          onEditButton={onEditButton(todo.id)} />
       ) : null
       }
     </Container>
   )
 }
 
-export default TodoList;
+export default List;

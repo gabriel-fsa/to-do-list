@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useTodo } from '../../hook/useTodo';
-import Button from '../button';
+import { ReactComponent as Add } from '../../assets/Add.svg'
+import { ReactComponent as Back } from '../../assets/Back.svg'
+import { ReactComponent as Cancel } from '../../assets/Cancel.svg'
 
-import { Container, Form } from './styles';
+import { Container, InputWrapper, Form } from './styles';
 
 interface FormProps {
   isInTodoPage?: boolean
@@ -11,23 +13,24 @@ interface FormProps {
 
 const InputForm: React.FC<FormProps> = ({ isInTodoPage, isInTaskPage }) => {
   const {
-    taskEditing,
-    setTaskEditing,
+    edit,
+    setEdit,
     handleUpdateTask,
+    handleAddTask,
+    handleUpdateTodo,
     selectedTodo,
     setSelectedTodo,
     handleAddTodo,
-    handleAddTask
   } = useTodo()
   const [inputData, setInputData] = useState('')
 
   useEffect(() => {
-    if (taskEditing) {
-      setInputData(taskEditing.taskMessage)
+    if (edit) {
+      setInputData(edit.message)
     } else {
       setInputData('')
     }
-  }, [taskEditing])
+  }, [edit])
 
   function onChange(e: React.ChangeEvent<HTMLInputElement>) {
     setInputData(e.target.value)
@@ -36,15 +39,19 @@ const InputForm: React.FC<FormProps> = ({ isInTodoPage, isInTaskPage }) => {
   function handleSubmit(e: React.ChangeEvent<HTMLFormElement> | any) {
     e.preventDefault()
     if (!inputData.length) return
-    if (isInTaskPage) {
-      if (taskEditing) {
-        const { todoId, taskId, taskMessage } = taskEditing
-        handleUpdateTask(todoId, taskId, inputData)
-        setTaskEditing(null)
+    if (edit) {
+      if (edit.mode === 'task') {
+        const { todoId, taskId } = edit
+        handleUpdateTask(todoId, Number(taskId), inputData)
       }
-      else if (selectedTodo) handleAddTask(selectedTodo, inputData)
+      if (edit.mode === 'todo') {
+        const { todoId } = edit
+        handleUpdateTodo(todoId, inputData)
+      }
+      setEdit(null)
     }
-    if (isInTodoPage) {
+    else if (selectedTodo) handleAddTask(selectedTodo, inputData)
+    else if (isInTodoPage) {
       handleAddTodo(inputData)
     }
     setInputData('')
@@ -53,14 +60,19 @@ const InputForm: React.FC<FormProps> = ({ isInTodoPage, isInTaskPage }) => {
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
-        <input
-          type='text'
-          onChange={onChange}
-          value={inputData}
-        />
-        <Button onClick={handleSubmit}>{taskEditing && 'Editar '} {isInTodoPage && 'Todo'} {!taskEditing && isInTaskPage && 'tarefa'}</Button>
-        {isInTaskPage && taskEditing && <Button type='button' onClick={() => setTaskEditing(null)}>{'Cancelar'}</Button>}
-        {isInTaskPage && !taskEditing && <Button type='button' onClick={() => setSelectedTodo(null)}>{'Voltar'}</Button>}
+        {isInTaskPage && !edit && <button className='back-icon' type='button' onClick={() => setSelectedTodo(null)}>{<Back />}</button>}
+        <InputWrapper>
+          <input
+            type='text'
+            onChange={onChange}
+            value={inputData}
+            placeholder={selectedTodo ?
+              'Insira o nome da tarefa'
+              : 'Insira o nome da todo'}
+          />
+        </InputWrapper>
+        <button onClick={handleSubmit}><Add /></button>
+        {isInTaskPage && edit && <button type='button' onClick={() => setEdit(null)}><Cancel /></button>}
       </Form >
     </Container>
   );

@@ -3,8 +3,9 @@ import styled from 'styled-components'
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 1000px;
+  max-width: 600px;
   margin: 30px auto;
+  background-color: #4527a0;
   overflow: auto;
   min-height: 300px;
   max-height: calc(100vh - 50px);
@@ -21,4 +22,10 @@ export const Container = styled.div`
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
+`
+
+export const Header = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 400px;
 `
