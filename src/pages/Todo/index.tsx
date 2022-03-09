@@ -3,7 +3,7 @@ import InputForm from '../../components/Form';
 import TaskList from '../../components/TaskList';
 import TodoList from '../../components/TodoList';
 import { useTodo } from '../../hook/useTodo';
-import { Container, Content } from './styles';
+import { Container, Content, Header } from './styles';
 
 interface TasksProps {
   id: number
@@ -15,13 +15,16 @@ const Todo: React.FC = () => {
   const { todos, selectedTodo } = useTodo()
   return (
     <Container>
-      <Content>
+      <Header>
         {selectedTodo ?
           <div>
-            <h1>Cadrastre uma task</h1>
-            <h2>Todo: {todos.find((todo) => todo.id === selectedTodo)?.name}</h2>
+            <h1>Lista de Tarefas</h1>
           </div>
-          : <h1>Cadrastre uma todo</h1>}
+          : <h1>Lista de Todo </h1>}
+        <InputForm isInTaskPage={!!selectedTodo} isInTodoPage={!selectedTodo} />
+
+      </Header>
+      <Content>
         {selectedTodo ? <TaskList /> : <TodoList />}
       </Content>
     </Container>
